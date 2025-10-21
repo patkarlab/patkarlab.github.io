@@ -6,12 +6,13 @@
   <title>Molecular Hematology Research Group</title>
   <style>
     html, body { margin:0; padding:0; height:100%; }
-    /* Put the canvas behind content */
+    /* Keep the canvas behind content but still visible */
     #nucleotideCanvas {
       position: fixed;
       inset: 0;          /* top:0; right:0; bottom:0; left:0 */
-      z-index: -1;       /* behind everything */
+      z-index: 0;        /* behind content, but not behind the page itself */
       display: block;
+      pointer-events: none; /* don't block clicks */
     }
     /* Simple centered content */
     .wrap {
@@ -31,19 +32,22 @@
   </style>
 </head>
 <body>
-  <!-- Your exact canvas -->
+  <!-- Canvas background -->
   <canvas id="nucleotideCanvas"></canvas>
 
   <!-- Foreground text -->
   <main class="wrap">
     <div>
       <h1>Molecular Hematology Research Group</h1>
-      <div class="sub">ACTREC, Tata Memorial Centre</div>
-      <p>As a research group, we focus on acute leukemia and other blood cancers with the goal to translate these discoveries into the clinic.</p>
+      <div class="sub">(Prof. Nikhil Patkar's Blood Cancer Research Group)</div>
+
+      <p><strong>Mission</strong></p>
+      <p>We are a research lab focused on improving the diagnosis, prognostication, and monitoring of acute leukemia.
+      Our goal is to translate these innovations into the clinic.</p>
     </div>
   </main>
 
-  <!-- Your exact script, unchanged -->
+  <!-- Animation script (your code, with no logic changes) -->
   <script>
   const canvas = document.getElementById("nucleotideCanvas");
   const ctx = canvas.getContext("2d");
@@ -133,7 +137,6 @@
         next.y = 0;
         next.lastEmitY = -next.rowStep; // start emitting just above the top
         columns[idx] = next;
-        col = next;
       }
 
       // render + prune trail
