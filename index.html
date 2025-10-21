@@ -6,46 +6,36 @@
   <title>Molecular Hematology Research Group</title>
   <style>
     html, body { margin:0; padding:0; height:100%; }
-    /* Put the canvas behind content */
-    #nucleotideCanvas {
-      position: fixed;
-      inset: 0;          /* top:0; right:0; bottom:0; left:0 */
-      z-index: -1;       /* behind everything */
-      display: block;
+    #nucleotideCanvas{
+      position:fixed; inset:0; z-index:0; display:block; pointer-events:none;
     }
-    /* Simple centered content */
-    .wrap {
-      position: relative;
-      z-index: 1;        /* ensure on top of canvas */
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      text-align: center;
+    .wrap{
+      position:relative; z-index:1; min-height:100vh;
+      display:grid; place-items:center; padding:24px;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      color: rgb(10,30,120);
-      padding: 24px;
+      color: rgb(10,30,120); text-align:center;
     }
-    h1 { margin: 0 0 6px; font-size: clamp(28px,4.5vw,44px); }
-    .sub { margin: 0 0 16px; opacity: .85; }
-    p { margin: 8px 0; font-size: clamp(15px,2vw,19px); line-height: 1.5; }
+    .card{
+      background: rgba(255,255,255,0.85);
+      -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+      border-radius: 20px; padding: clamp(20px,4vw,48px);
+      box-shadow: 0 12px 30px rgba(10,30,120,.10);
+      max-width: 1100px; width: min(92vw, 1100px);
+    }
+    h1 { margin: 0 0 8px; font-size: clamp(28px,5vw,64px); line-height:1.1; }
+    p { margin: 10px 0; font-size: clamp(15px,2vw,20px); line-height: 1.6; }
   </style>
 </head>
 <body>
-  <!-- Your exact canvas -->
   <canvas id="nucleotideCanvas"></canvas>
 
-  <!-- Foreground text -->
   <main class="wrap">
-    <div>
+    <section class="card" id="textBlock">
       <h1>Molecular Hematology Research Group</h1>
-      <div class="sub">(Prof. Nikhil Patkar's Blood Cancer Research Group)</div>
-
-      <p>We are the Molecular Hematology Research Group, based in ACTREC, Tata Memorial Centre, Mumbai, India.</p>
-      <p>As a research group, we focus on blood cancers with the goal to translate these discoveries into the clinic.</p>
-    </div>
+      <p>Our mission is to improve the diagnosis, prognostication and monitoring of acute leukaemia and rapidly translate these discoveries into the clinics.</p>
+    </section>
   </main>
 
-  <!-- Your exact script, unchanged -->
   <script>
   const canvas = document.getElementById("nucleotideCanvas");
   const ctx = canvas.getContext("2d");
@@ -71,6 +61,21 @@
 
   const bases = ["A","T","G","C"];
   let columns = [];
+  let safeRect = null; // no-draw zone around the text
+
+  function updateSafeRect(){
+    const el = document.getElementById('textBlock');
+    if(!el){ safeRect = null; return; }
+    const r = el.getBoundingClientRect();
+    const pad = 12; // small buffer
+    safeRect = { left: r.left - pad, right: r.right + pad, top: r.top - pad, bottom: r.bottom + pad };
+  }
+  updateSafeRect();
+
+  function inSafeRect(x,y){
+    if(!safeRect) return false;
+    return x >= safeRect.left && x <= safeRect.right && y >= safeRect.top && y <= safeRect.bottom;
+  }
 
   function rand(a,b){ return a + Math.random()*(b-a); }
 
@@ -82,7 +87,7 @@
       y: Math.random() * window.innerHeight,
       speed: (0.9 + Math.random() * 1.4) * SPEED_FACTOR,
       fontSize,
-      rowStep: fontSize * rowScale,  // << vertical spacing between letters
+      rowStep: fontSize * rowScale,
       depth: 0.7 + Math.random() * 1.1,
       lastEmitY: 0,
       trail: []
@@ -93,13 +98,12 @@
     const count = Math.max(1, Math.floor(window.innerWidth / COL_WIDTH));
     columns = new Array(count).fill(0).map((_, i) => {
       const c = newColumn(i);
-      c.lastEmitY = c.y; // initialize so first emit waits for rowStep
+      c.lastEmitY = c.y;
       return c;
     });
   }
   rebuildColumns();
 
-  // easing for fade
   const easeOutQuad = t => 1 - (1 - t) * (1 - t);
 
   function draw(now) {
@@ -109,10 +113,8 @@
     ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
     columns.forEach((col, idx) => {
-      // move the head
       col.y += col.speed * col.depth;
 
-      // emit only when we've moved by at least one row step
       while (col.y - col.lastEmitY >= col.rowStep) {
         col.lastEmitY += col.rowStep;
 
@@ -129,16 +131,13 @@
         });
       }
 
-      // recycle column
       if (col.y > window.innerHeight + col.rowStep) {
         const next = newColumn(idx);
         next.y = 0;
-        next.lastEmitY = -next.rowStep; // start emitting just above the top
+        next.lastEmitY = -next.rowStep;
         columns[idx] = next;
-        col = next;
       }
 
-      // render + prune trail
       const alive = [];
       for (let i = 0; i < col.trail.length; i++) {
         const g = col.trail[i];
@@ -147,14 +146,15 @@
           const t = age / LIFETIME_MS;
           const alpha = 1 - easeOutQuad(t);
 
-          ctx.globalAlpha = alpha;
-          ctx.shadowColor = g.color;
-          ctx.shadowBlur = Math.max(0, (g.size - 16) * 0.2);
-
-          ctx.font = `${g.size}px monospace`;
-          ctx.fillStyle = g.color;
-          ctx.fillText(g.char, g.x, g.y);
-
+          // Skip drawing inside the safe text area
+          if (!inSafeRect(g.x, g.y)) {
+            ctx.globalAlpha = alpha;
+            ctx.shadowColor = g.color;
+            ctx.shadowBlur = Math.max(0, (g.size - 16) * 0.2);
+            ctx.font = `${g.size}px monospace`;
+            ctx.fillStyle = g.color;
+            ctx.fillText(g.char, g.x, g.y);
+          }
           alive.push(g);
         }
       }
@@ -170,7 +170,9 @@
   window.addEventListener("resize", () => {
     resizeCanvas();
     rebuildColumns();
+    updateSafeRect();
   });
+  window.addEventListener("load", updateSafeRect);
   </script>
 </body>
 </html>
