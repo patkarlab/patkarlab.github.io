@@ -2,204 +2,407 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Molecular Hematology Research Group</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+  <meta name="description" content="Molecular Hematology Research Group at ACTREC, Tata Memorial Centre, Mumbai, India. Translational research in blood cancers led by Prof. Nikhil Patkar." />
+  <title>Molecular Hematology Research Group – Prof. Nikhil Patkar's Blood Cancer Research Group</title>
   <style>
-    html, body { margin:0; padding:0; height:100%; }
-    /* Canvas stays behind everything */
-    #nucleotideCanvas{
-      position:fixed; inset:0; z-index:0; display:block; pointer-events:none;
+    :root{
+      --ink:#0a1e78;
+      --mut:#D80000;
     }
-    /* Top navigation */
-    .topnav{
-      position:fixed; top:12px; left:16px; right:16px; z-index:3;
-      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+
+    * {
+      box-sizing: border-box;
     }
-    .topnav a{
-      text-decoration:none; font-weight:600;
-      color: rgb(10,30,120);
-      background: rgba(255,255,255,.85);
-      border-radius: 999px;
-      padding: 10px 14px;
-      box-shadow: 0 2px 10px rgba(10,30,120,.12);
+
+    html, body { 
+      margin:0; 
+      padding:0; 
+      background:#ffffff; 
     }
-    .wrap{
-      position:relative; z-index:1; min-height:100vh;
-      display:grid; place-items:center; padding:24px;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      color: rgb(10,30,120); text-align:center;
+    
+    body { 
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; 
+      color: var(--ink);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden; /* Only hide horizontal overflow */
     }
-    .card{
-      background: rgba(255,255,255,0.85);
-      -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
-      border-radius: 20px; padding: clamp(20px,4vw,48px);
-      box-shadow: 0 12px 30px rgba(10,30,120,.10);
-      max-width: 1100px; width: min(92vw, 1100px);
+
+    /* Canvas positioning */
+    #nucleotideCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
     }
-    h1 { margin: 0 0 8px; font-size: clamp(28px,5vw,64px); line-height:1.1; }
-    p  { margin: 10px 0; font-size: clamp(15px,2vw,20px); line-height: 1.6; }
+
+    /* Full-bleed hero that sits above the animated canvas */
+    .hero {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      min-height: 100dvh; /* Dynamic viewport height for mobile */
+      padding: 20px;
+    }
+
+    .hero-card{
+      width: 100%;
+      max-width: 1000px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(10,30,120,0.08);
+      box-shadow: 0 10px 30px rgba(10,30,120,0.10);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+    }
+
+    h1{
+      margin: 0 0 12px 0;
+      font-size: clamp(24px, 5vw, 48px);
+      line-height: 1.2;
+      word-wrap: break-word;
+    }
+
+    .subtitle{
+      margin: 0 0 20px 0;
+      font-size: clamp(14px, 2.5vw, 22px);
+      opacity: .9;
+      line-height: 1.4;
+    }
+
+    .desc{
+      margin: 16px 0 0 0;
+      font-size: clamp(14px, 2vw, 20px);
+      line-height: 1.6;
+    }
+
+    .accent{ 
+      color: var(--mut); 
+      font-weight: 600; 
+    }
+
+    /* Footer hint */
+    .footer{ 
+      position: fixed; 
+      left: 0; 
+      right: 0; 
+      bottom: 12px; 
+      text-align: center; 
+      font-size: 11px; 
+      opacity: .6; 
+      z-index: 10;
+      padding: 0 20px;
+      pointer-events: none;
+    }
+
+    /* Mobile-specific adjustments */
+    @media (max-width: 768px) {
+      .hero {
+        padding: 16px;
+        min-height: 100vh;
+        min-height: 100dvh;
+      }
+      
+      .hero-card {
+        padding: 20px;
+        border-radius: 16px;
+        background: rgba(255,255,255,0.95); /* More opaque on mobile */
+      }
+      
+      h1 {
+        font-size: 28px;
+      }
+      
+      .subtitle {
+        font-size: 16px;
+      }
+      
+      .desc {
+        font-size: 15px;
+      }
+      
+      .footer {
+        font-size: 10px;
+        bottom: 8px;
+      }
+    }
+
+    /* Very small devices */
+    @media (max-width: 380px) {
+      h1 {
+        font-size: 24px;
+      }
+      
+      .hero-card {
+        padding: 16px;
+      }
+    }
+
+    /* Tablet adjustments */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .hero-card {
+        padding: 32px;
+      }
+    }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) { 
+      .motion-note{ display: inline; }
+      #nucleotideCanvas { display: none; }
+    }
+    @media (prefers-reduced-motion: no-preference) { 
+      .motion-note{ display: none; } 
+    }
+
+    /* Reduce animation complexity on mobile */
+    @media (max-width: 768px) and (pointer: coarse) {
+      #nucleotideCanvas {
+        opacity: 0.7; /* Slightly reduce visibility to improve text readability */
+      }
+    }
+
+    /* Landscape mobile adjustments */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .hero {
+        min-height: auto;
+        padding: 20px;
+      }
+      
+      h1 {
+        font-size: 24px;
+        margin-bottom: 8px;
+      }
+      
+      .subtitle {
+        margin-bottom: 12px;
+      }
+      
+      .desc {
+        margin-top: 12px;
+      }
+    }
   </style>
 </head>
 <body>
-
-  <!-- Fixed top navigation -->
-    <nav class="topnav" aria-label="Primary">
-    <a href="about.html">About</a>
-    <a href="research.html">Research</a>
-    <a href="alumni.html">Research Group Alumni</a>
-    <a href="gallery.html">Gallery</a>
-  </nav>
-
-  <!-- Background animation -->
-  <canvas id="nucleotideCanvas"></canvas>
+  <!-- Animated nucleotide rain canvas (background) -->
+  <canvas id="nucleotideCanvas" aria-hidden="true"></canvas>
 
   <!-- Foreground content -->
-  <main class="wrap">
-    <section class="card" id="textBlock">
+  <main class="hero" role="main">
+    <section class="hero-card" aria-label="Intro">
       <h1>Molecular Hematology Research Group</h1>
-      <p>Our mission is to improve the diagnosis, prognostication and monitoring of acute leukaemia and rapidly translate these discoveries into the clinics.</p>
+      <p class="subtitle">(Prof. Nikhil Patkar's Blood Cancer Research Group)</p>
+
+      <p class="desc">
+        We are the Molecular Hematology Research Group, based in ACTREC, Tata Memorial Centre, Mumbai, India.
+      </p>
+      <p class="desc">
+        As a research group, we focus on blood cancers with the goal to translate these discoveries into the clinic.
+      </p>
+
+      <p class="desc motion-note"><span class="accent">Note:</span> Motion reduced to respect your system setting.</p>
     </section>
   </main>
 
-  <!-- Animation script -->
+  <footer class="footer">© <span id="year"></span> Molecular Hematology Research Group · ACTREC · TMC</footer>
+
   <script>
-  const canvas = document.getElementById("nucleotideCanvas");
-  const ctx = canvas.getContext("2d");
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-  // === Controls you can tweak ===
-  const SPEED_FACTOR = 0.5;     // overall fall speed (lower = slower)
-  const LIFETIME_MS  = 2800;    // trail lifetime
-  const MUT_RATE     = 0.03;    // mutation chance
-  const COL_WIDTH    = 24;      // wider columns also help readability
-  const ROW_SCALE_MIN = 1.25;   // vertical spacing = fontSize * random scale
-  const ROW_SCALE_MAX = 1.6;    // increase these to spread letters out more
+    // Detect if mobile device
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isSmallScreen = window.innerWidth <= 768;
+    
+    const canvas = document.getElementById("nucleotideCanvas");
+    const ctx = canvas.getContext("2d");
 
-  // HiDPI crispness
-  function resizeCanvas() {
-    const dpr = window.devicePixelRatio || 1;
-    canvas.style.width = window.innerWidth + "px";
-    canvas.style.height = window.innerHeight + "px";
-    canvas.width = Math.floor(window.innerWidth * dpr);
-    canvas.height = Math.floor(window.innerHeight * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-  resizeCanvas();
+    // Adjust animation parameters for mobile
+    const SPEED_FACTOR = isMobile ? 0.3 : 0.5;     // Slower on mobile
+    const LIFETIME_MS  = isMobile ? 2000 : 2800;   // Shorter trails on mobile
+    const MUT_RATE     = 0.03;
+    const COL_WIDTH    = isMobile ? 36 : 24;       // Wider columns on mobile (fewer columns)
+    const ROW_SCALE_MIN = 1.25;
+    const ROW_SCALE_MAX = 1.6;
 
-  const bases = ["A","T","G","C"];
-  let columns = [];
-  let safeRect = null; // no-draw zone around the text
+    // HiDPI crispness with performance consideration
+    function resizeCanvas() {
+      const dpr = isMobile ? Math.min(window.devicePixelRatio || 1, 2) : (window.devicePixelRatio || 1);
+      canvas.style.position = "fixed";
+      canvas.style.top = 0; 
+      canvas.style.left = 0; 
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resizeCanvas();
 
-  function updateSafeRect(){
-    const el = document.getElementById('textBlock');
-    if(!el){ safeRect = null; return; }
-    const r = el.getBoundingClientRect();
-    const pad = 12; // small buffer
-    safeRect = { left: r.left - pad, right: r.right + pad, top: r.top - pad, bottom: r.bottom + pad };
-  }
-  updateSafeRect();
+    const bases = ["A","T","G","C"];
+    let columns = [];
+    let animationId = null;
 
-  function inSafeRect(x,y){
-    if(!safeRect) return false;
-    return x >= safeRect.left && x <= safeRect.right && y >= safeRect.top && y <= safeRect.bottom;
-  }
+    function rand(a,b){ return a + Math.random()*(b-a); }
 
-  function rand(a,b){ return a + Math.random()*(b-a); }
+    function newColumn(i) {
+      const fontSize = isMobile ? (12 + Math.random() * 16) : (16 + Math.random() * 24);
+      const rowScale = rand(ROW_SCALE_MIN, ROW_SCALE_MAX);
+      return {
+        x: i * COL_WIDTH + Math.floor(COL_WIDTH * 0.5),
+        y: Math.random() * window.innerHeight,
+        speed: (0.9 + Math.random() * 1.4) * SPEED_FACTOR,
+        fontSize,
+        rowStep: fontSize * rowScale,
+        depth: 0.7 + Math.random() * 1.1,
+        lastEmitY: 0,
+        trail: []
+      };
+    }
 
-  function newColumn(i) {
-    const fontSize = 16 + Math.random() * 24; // 16–40px
-    const rowScale = rand(ROW_SCALE_MIN, ROW_SCALE_MAX);
-    return {
-      x: i * COL_WIDTH + Math.floor(COL_WIDTH * 0.5),
-      y: Math.random() * window.innerHeight,
-      speed: (0.9 + Math.random() * 1.4) * SPEED_FACTOR,
-      fontSize,
-      rowStep: fontSize * rowScale,
-      depth: 0.7 + Math.random() * 1.1,
-      lastEmitY: 0,
-      trail: []
-    };
-  }
+    function rebuildColumns() {
+      const count = Math.max(1, Math.floor(window.innerWidth / COL_WIDTH));
+      // Limit columns on mobile for performance
+      const maxCols = isMobile ? 15 : 50;
+      const finalCount = Math.min(count, maxCols);
+      
+      columns = new Array(finalCount).fill(0).map((_, i) => {
+        const c = newColumn(i);
+        c.lastEmitY = c.y;
+        return c;
+      });
+    }
+    rebuildColumns();
 
-  function rebuildColumns() {
-    const count = Math.max(1, Math.floor(window.innerWidth / COL_WIDTH));
-    columns = new Array(count).fill(0).map((_, i) => {
-      const c = newColumn(i);
-      c.lastEmitY = c.y;
-      return c;
-    });
-  }
-  rebuildColumns();
+    const easeOutQuad = t => 1 - (1 - t) * (1 - t);
 
-  const easeOutQuad = t => 1 - (1 - t) * (1 - t);
+    // Throttle animation on mobile
+    let lastFrame = 0;
+    const targetFPS = isMobile ? 30 : 60;
+    const frameDelay = 1000 / targetFPS;
 
-  function draw(now) {
-    // white background
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-
-    columns.forEach((col, idx) => {
-      col.y += col.speed * col.depth;
-
-      while (col.y - col.lastEmitY >= col.rowStep) {
-        col.lastEmitY += col.rowStep;
-
-        const char = bases[(Math.random() * bases.length) | 0];
-        const isMut = Math.random() < MUT_RATE;
-
-        col.trail.push({
-          x: col.x,
-          y: col.lastEmitY,
-          char,
-          color: isMut ? "#D80000" : "rgb(10,30,120)",
-          size: col.fontSize,
-          born: now
-        });
+    function draw(now) {
+      // FPS throttling for mobile
+      if (isMobile && (now - lastFrame) < frameDelay) {
+        animationId = requestAnimationFrame(draw);
+        return;
       }
+      lastFrame = now;
 
-      if (col.y > window.innerHeight + col.rowStep) {
-        const next = newColumn(idx);
-        next.y = 0;
-        next.lastEmitY = -next.rowStep;
-        columns[idx] = next;
-      }
+      // Clear with white background
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
-      const alive = [];
-      for (let i = 0; i < col.trail.length; i++) {
-        const g = col.trail[i];
-        const age = now - g.born;
-        if (age <= LIFETIME_MS) {
-          const t = age / LIFETIME_MS;
-          const alpha = 1 - easeOutQuad(t);
+      columns.forEach((col, idx) => {
+        // Move the head
+        col.y += col.speed * col.depth;
 
-          // Skip drawing inside the safe text area
-          if (!inSafeRect(g.x, g.y)) {
+        // Emit new characters
+        while (col.y - col.lastEmitY >= col.rowStep) {
+          col.lastEmitY += col.rowStep;
+
+          const char = bases[(Math.random() * bases.length) | 0];
+          const isMut = Math.random() < MUT_RATE;
+
+          col.trail.push({
+            x: col.x,
+            y: col.lastEmitY,
+            char,
+            color: isMut ? "#D80000" : "rgb(10,30,120)",
+            size: col.fontSize,
+            born: now
+          });
+        }
+
+        // Recycle column
+        if (col.y > window.innerHeight + col.rowStep) {
+          const next = newColumn(idx);
+          next.y = 0;
+          next.lastEmitY = -next.rowStep;
+          columns[idx] = next;
+          col = next;
+        }
+
+        // Render & prune trail
+        const alive = [];
+        const maxTrailLength = isMobile ? 10 : 20; // Limit trail length on mobile
+        
+        for (let i = 0; i < Math.min(col.trail.length, maxTrailLength); i++) {
+          const g = col.trail[i];
+          const age = now - g.born;
+          if (age <= LIFETIME_MS) {
+            const t = age / LIFETIME_MS;
+            const alpha = 1 - easeOutQuad(t);
+
             ctx.globalAlpha = alpha;
-            ctx.shadowColor = g.color;
-            ctx.shadowBlur = Math.max(0, (g.size - 16) * 0.2);
+            
+            // Reduce shadow blur on mobile for performance
+            if (!isMobile) {
+              ctx.shadowColor = g.color;
+              ctx.shadowBlur = Math.max(0, (g.size - 16) * 0.2);
+            }
+
             ctx.font = `${g.size}px monospace`;
             ctx.fillStyle = g.color;
             ctx.fillText(g.char, g.x, g.y);
+
+            alive.push(g);
           }
-          alive.push(g);
         }
-      }
-      col.trail = alive;
+        col.trail = alive;
+      });
+
+      ctx.globalAlpha = 1;
+      ctx.shadowBlur = 0;
+      animationId = requestAnimationFrame(draw);
+    }
+    
+    // Start animation
+    animationId = requestAnimationFrame(draw);
+
+    // Debounced resize handler
+    let resizeTimeout;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        resizeCanvas();
+        rebuildColumns();
+      }, 250);
     });
 
-    ctx.globalAlpha = 1;
-    ctx.shadowBlur = 0;
-    requestAnimationFrame(draw);
-  }
-  requestAnimationFrame(draw);
+    // Pause animation when page is not visible (saves battery on mobile)
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden && animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+      } else if (!document.hidden && !animationId) {
+        animationId = requestAnimationFrame(draw);
+      }
+    });
 
-  window.addEventListener("resize", () => {
-    resizeCanvas();
-    rebuildColumns();
-    updateSafeRect();
-  });
-  window.addEventListener("load", updateSafeRect);
+    // Respect reduced motion
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    function handleMotionPreference() {
+      if (mediaQuery.matches) {
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+          animationId = null;
+        }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      } else if (!animationId) {
+        animationId = requestAnimationFrame(draw);
+      }
+    }
+    mediaQuery.addEventListener?.('change', handleMotionPreference);
+    handleMotionPreference();
   </script>
 </body>
 </html>
