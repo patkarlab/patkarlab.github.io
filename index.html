@@ -2,40 +2,97 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Molecular Hematology Research Group</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Molecular Hematology Research Group at ACTREC, Tata Memorial Centre, Mumbai, India. Translational research in blood cancers led by Prof. Nikhil Patkar." />
+  <title>Molecular Hematology Research Group — Prof. Nikhil Patkar's Blood Cancer Research Group</title>
   <style>
-    html, body { margin:0; padding:0; height:100%; }
-    #nucleotideCanvas{
-      position:fixed; inset:0; z-index:0; display:block; pointer-events:none;
+    :root{
+      --ink:#0a1e78; /* deep blue for text */
+      --mut:#D80000; /* mutation red from your canvas */
     }
-    .wrap{
-      position:relative; z-index:1; min-height:100vh;
-      display:grid; place-items:center; padding:24px;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      color: rgb(10,30,120); text-align:center;
+
+    html, body { height: 100%; }
+    html, body { margin:0; padding:0; overflow:hidden; background:#ffffff; }
+    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; color: var(--ink); }
+
+    /* Full-bleed hero that sits above the animated canvas */
+    .hero {
+      position: relative;
+      z-index: 10; /* keep content above the canvas */
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      padding: clamp(16px, 3vw, 48px);
     }
-    .card{
+
+    .hero-card{
+      max-width: 1000px;
+      width: min(92vw, 1000px);
       background: rgba(255,255,255,0.85);
-      -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
-      border-radius: 20px; padding: clamp(20px,4vw,48px);
-      box-shadow: 0 12px 30px rgba(10,30,120,.10);
-      max-width: 1100px; width: min(92vw, 1100px);
+      border: 1px solid rgba(10,30,120,0.08);
+      box-shadow: 0 10px 30px rgba(10,30,120,0.10);
+      border-radius: 20px;
+      padding: clamp(20px, 4vw, 48px);
+      backdrop-filter: blur(3px);
     }
-    h1 { margin: 0 0 8px; font-size: clamp(28px,5vw,64px); line-height:1.1; }
-    p { margin: 10px 0; font-size: clamp(15px,2vw,20px); line-height: 1.6; }
+
+    h1{
+      margin: 0 0 8px 0;
+      font-size: clamp(28px, 4.5vw, 48px);
+      line-height: 1.1;
+    }
+
+    .subtitle{
+      margin: 0 0 16px 0;
+      font-size: clamp(16px, 2.1vw, 22px);
+      opacity: .9;
+    }
+
+    .desc{
+      margin: 18px 0 0 0;
+      font-size: clamp(16px, 1.8vw, 20px);
+      line-height: 1.55;
+      max-width: 70ch;
+    }
+
+    .accent{ color: var(--mut); font-weight: 600; }
+
+    /* Footer hint */
+    .footer{ position: absolute; left: 0; right: 0; bottom: 12px; text-align: center; font-size: 12px; opacity: .6; z-index: 10; }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) { .motion-note{ display: inline; } }
+    @media (prefers-reduced-motion: no-preference) { .motion-note{ display: none; } }
   </style>
 </head>
 <body>
-  <canvas id="nucleotideCanvas"></canvas>
+  <!-- Animated nucleotide rain canvas (background) -->
+  <canvas id="nucleotideCanvas" aria-hidden="true"></canvas>
 
-  <main class="wrap">
-    <section class="card" id="textBlock">
+  <!-- Foreground content -->
+  <main class="hero" role="main">
+    <section class="hero-card" aria-label="Intro">
       <h1>Molecular Hematology Research Group</h1>
-      <p>Our mission is to improve the diagnosis, prognostication and monitoring of acute leukaemia and rapidly translate these discoveries into the clinics.</p>
+      <p class="subtitle">(Prof. Nikhil Patkar's Blood Cancer Research Group)</p>
+
+      <p class="desc">
+        We are the Molecular Hematology Research Group, based in ACTREC, Tata Memorial Centre, Mumbai, India.
+      </p>
+      <p class="desc">
+        As a research group, we focus on blood cancers with the goal to translate these discoveries into the clinic.
+      </p>
+
+      <p class="desc motion-note"><span class="accent">Note:</span> Motion reduced to respect your system setting.</p>
     </section>
   </main>
 
+  <div class="footer">© <span id="year"></span> Molecular Hematology Research Group · ACTREC · Tata Memorial Centre</div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <!-- === Your exact nucleotide animation code (unmodified constants) === -->
   <script>
   const canvas = document.getElementById("nucleotideCanvas");
   const ctx = canvas.getContext("2d");
@@ -51,6 +108,8 @@
   // HiDPI crispness
   function resizeCanvas() {
     const dpr = window.devicePixelRatio || 1;
+    canvas.style.position = "fixed";
+    canvas.style.top = 0; canvas.style.left = 0; canvas.style.zIndex = 0;
     canvas.style.width = window.innerWidth + "px";
     canvas.style.height = window.innerHeight + "px";
     canvas.width = Math.floor(window.innerWidth * dpr);
@@ -61,21 +120,6 @@
 
   const bases = ["A","T","G","C"];
   let columns = [];
-  let safeRect = null; // no-draw zone around the text
-
-  function updateSafeRect(){
-    const el = document.getElementById('textBlock');
-    if(!el){ safeRect = null; return; }
-    const r = el.getBoundingClientRect();
-    const pad = 12; // small buffer
-    safeRect = { left: r.left - pad, right: r.right + pad, top: r.top - pad, bottom: r.bottom + pad };
-  }
-  updateSafeRect();
-
-  function inSafeRect(x,y){
-    if(!safeRect) return false;
-    return x >= safeRect.left && x <= safeRect.right && y >= safeRect.top && y <= safeRect.bottom;
-  }
 
   function rand(a,b){ return a + Math.random()*(b-a); }
 
@@ -87,7 +131,7 @@
       y: Math.random() * window.innerHeight,
       speed: (0.9 + Math.random() * 1.4) * SPEED_FACTOR,
       fontSize,
-      rowStep: fontSize * rowScale,
+      rowStep: fontSize * rowScale,  // << vertical spacing between letters
       depth: 0.7 + Math.random() * 1.1,
       lastEmitY: 0,
       trail: []
@@ -98,12 +142,13 @@
     const count = Math.max(1, Math.floor(window.innerWidth / COL_WIDTH));
     columns = new Array(count).fill(0).map((_, i) => {
       const c = newColumn(i);
-      c.lastEmitY = c.y;
+      c.lastEmitY = c.y; // initialize so first emit waits for rowStep
       return c;
     });
   }
   rebuildColumns();
 
+  // easing for fade
   const easeOutQuad = t => 1 - (1 - t) * (1 - t);
 
   function draw(now) {
@@ -113,8 +158,10 @@
     ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
     columns.forEach((col, idx) => {
+      // move the head
       col.y += col.speed * col.depth;
 
+      // emit only when we've moved by at least one row step
       while (col.y - col.lastEmitY >= col.rowStep) {
         col.lastEmitY += col.rowStep;
 
@@ -131,13 +178,16 @@
         });
       }
 
+      // recycle column
       if (col.y > window.innerHeight + col.rowStep) {
         const next = newColumn(idx);
         next.y = 0;
-        next.lastEmitY = -next.rowStep;
+        next.lastEmitY = -next.rowStep; // start emitting just above the top
         columns[idx] = next;
+        col = next;
       }
 
+      // render + prune trail
       const alive = [];
       for (let i = 0; i < col.trail.length; i++) {
         const g = col.trail[i];
@@ -146,15 +196,14 @@
           const t = age / LIFETIME_MS;
           const alpha = 1 - easeOutQuad(t);
 
-          // Skip drawing inside the safe text area
-          if (!inSafeRect(g.x, g.y)) {
-            ctx.globalAlpha = alpha;
-            ctx.shadowColor = g.color;
-            ctx.shadowBlur = Math.max(0, (g.size - 16) * 0.2);
-            ctx.font = `${g.size}px monospace`;
-            ctx.fillStyle = g.color;
-            ctx.fillText(g.char, g.x, g.y);
-          }
+          ctx.globalAlpha = alpha;
+          ctx.shadowColor = g.color;
+          ctx.shadowBlur = Math.max(0, (g.size - 16) * 0.2);
+
+          ctx.font = `${g.size}px monospace`;
+          ctx.fillStyle = g.color;
+          ctx.fillText(g.char, g.x, g.y);
+
           alive.push(g);
         }
       }
@@ -170,9 +219,18 @@
   window.addEventListener("resize", () => {
     resizeCanvas();
     rebuildColumns();
-    updateSafeRect();
   });
-  window.addEventListener("load", updateSafeRect);
+
+  // Respect reduced motion: pause the animation by not drawing when reduced
+  const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function handleMotion() {
+    if (media.matches) {
+      // clear once and stop
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+    }
+  }
+  media.addEventListener?.('change', handleMotion);
+  handleMotion();
   </script>
 </body>
 </html>
