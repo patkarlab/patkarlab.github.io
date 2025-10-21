@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Research — Molecular Hematology Research Group</title>
+  <style>
+    html, body { margin:0; padding:0; height:100%; }
+    #nucleotideCanvas{ position:fixed; inset:0; z-index:0; display:block; pointer-events:none; }
+    body{ font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; color: rgb(10,30,120); }
+
+    /* Top nav */
+    .nav{ position:fixed; top:12px; left:16px; right:16px; z-index:2; display:flex; justify-content:space-between; align-items:center; }
+    .nav a{ text-decoration:none; color: rgb(10,30,120); font-weight:600; padding:10px 14px; border-radius:999px; background: rgba(255,255,255,.85); box-shadow:0 2px 10px rgba(10,30,120,.12); }
+
+    .wrap{ position:relative; z-index:1; min-height:100vh; padding: 110px 24px 48px; display:grid; place-items:center; }
+    .content{ background: rgba(255,255,255,0.86); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); border-radius: 20px; padding: clamp(20px,4vw,48px); box-shadow: 0 12px 30px rgba(10,30,120,.10); width: min(1000px, 92vw); }
+    h1{ margin: 0 0 12px; font-size: clamp(28px,5vw,56px); }
+    h2{ margin: 24px 0 8px; font-size: clamp(20px,3.2vw,30px); }
+    h3{ margin: 18px 0 6px; font-size: clamp(18px,2.6vw,24px); }
+    p, li{ font-size: clamp(15px,2vw,19px); line-height: 1.6; margin: 8px 0; }
+    ul{ padding-left: 1.2em; }
+    .refs li{ margin-bottom: 6px; }
+    .funding li{ margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+  <canvas id="nucleotideCanvas"></canvas>
+
+  <div class="nav">
+    <a href="index.html">← Home</a>
+    <a href="#top">Research</a>
+  </div>
+
+  <main class="wrap" id="top">
+    <article class="content" id="textBlock">
+      <h1>Research</h1>
+      <p>The mission of the group is to improve the diagnosis, prognostication and monitoring of blood cancers. Almost all of our work uses cutting edge next-generation sequencing and computational methods.</p>
+      <p>We actively collaborate with adult and pediatric hematolymphoid disease management groups and the bone marrow transplantation team at the Tata Memorial Centre and ACTREC.</p>
+
+      <h2>Our Research Areas</h2>
+
+      <h3>1. Measurable Residual Disease Detection for Acute Myeloid Leukemia</h3>
+      <p>Our group has led pioneering clinical work comparing multiparameter flow cytometry and error-corrected panel-based next-generation sequencing for the detection of MRD in acute myeloid leukemia. We are extending this with duplex sequencing and single-cell genomics to study chemotherapy resistance and clonal evolution.</p>
+      <ul class="refs">
+        <li>Nikhil Patkar*, Chinmayee Kakirde, Anam Fatima Shaikh et al. <em>Clinical Impact of Panel Based Error Corrected Next Generation Sequencing versus Flow Cytometry to Detect Measurable Residual Disease (MRD) in Acute Myeloid Leukemia (AML)</em>. <strong>Leukemia</strong>, 2021.</li>
+        <li>Nikhil Patkar*, Rohan Kodgule, Chinmayee Kakirde, et al. <em>Clinical impact of measurable residual disease monitoring by ultradeep next generation sequencing in NPM1 mutated acute myeloid leukemia</em>. <strong>Oncotarget</strong>, 2018;9(93):36613-36624.</li>
+        <li>Nikhil Patkar*, Chinmayee Kakirde, Prasanna Bhanshe, et al. <em>Utility of Immunophenotypic MRD in AML– Real-World Context</em>. <strong>Frontiers in Oncology</strong>, 2019;9:450.</li>
+        <li>Nikhil Patkar et al. <em>Molecular Measurable Residual Disease Detection in Acute Myeloid Leukemia Using Error Corrected Next Generation Sequencing</em>. Platform Presentation, <strong>ASH 2020</strong>.</li>
+      </ul>
+
+      <h3>2. Development of Novel Next-Generation Sequencing Methods for Genomics of Blood Cancers</h3>
+      <p>We develop NGS-based molecular methods for diagnosis, prognostication and monitoring of blood cancers, including nanopore-based assays for rapid diagnosis and classification.</p>
+      <ul class="refs">
+        <li>Nikhil Patkar*, Prasanna Bhanshe, Sweta Rajpal, et al. <em>NARASIMHA: Novel Assay based on Targeted RNA Sequencing to Identify ChiMeric Gene Fusions in Hematological Malignancies</em>. <strong>Blood Cancer Journal</strong>, 2020.</li>
+      </ul>
+
+      <h3>3. Artificial Intelligence and its Application to Blood Cancers</h3>
+      <p>We use ML/DL to transform leukemia diagnostics: methylation-based classifiers for ultrarapid diagnosis, image-based classification using whole-slide imaging, and graph neural networks for therapy discovery in AML.</p>
+      <ul class="refs">
+        <li>Nikhil Patkar*, Anam Fatima Shaikh, Chinmayee Kakirde, et al. <em>A Novel Machine Learning Derived Genetic Score Correlates with Measurable Residual Disease and is Highly Predictive of Outcome in Acute Myeloid Leukemia with Mutated NPM1</em>. <strong>Blood Cancer Journal</strong>, 2019;9(10):79.</li>
+        <li>Shaikh AF, Kakirde C, …, Patkar N*. <em>Machine learning derived genomics driven prognostication for acute myeloid leukemia with RUNX1-RUNX1T1</em>. <strong>Leukemia & Lymphoma</strong>, 2020.</li>
+      </ul>
+
+      <h3>4. Genomics of Acute Leukemia</h3>
+      <p>We are sequencing a large pediatric leukemia cohort using whole-transcriptome sequencing to characterize driver events. In parallel, we are developing adaptive whole-genome nanopore assays for rapid diagnosis and targeted RNA sequencing workflows for public hospitals in India, alongside ultra-sensitive MRD assays for childhood ALL.</p>
+
+      <h2>Research Funding</h2>
+      <ul class="funding">
+        <li>ICMR – Center for Advanced Research Grant (2025–2030)</li>
+        <li>ICMR – Intermediate Grant (2025–2029)</li>
+        <li>Illumina Inc Medical Research Grant (2023–2026)</li>
+        <li>St Jude Global Alliance (2024–2026)</li>
+        <li>ThermoFisher Scientific – Oncomine Global Grant (2024–2026)</li>
+        <li>Wellcome Trust/DBT India Alliance Senior Fellowship (2023–2028)</li>
+        <li><em>Completed:</em> India Cancer Research Consortium – ICMR (2020–2023)</li>
+        <li><em>Completed:</em> Lady Tata Memorial Trust (2021–2024)</li>
+        <li><em>Completed:</em> Wellcome Trust/DBT India Alliance Intermediate Fellowship (2015–2021)</li>
+      </ul>
+    </article>
+  </main>
+
+  <script>
+  const canvas = document.getElementById('nucleotideCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // Controls (same feel as landing)
+  const SPEED_FACTOR = 0.5;
+  const LIFETIME_MS  = 2800;
+  const MUT_RATE     = 0.03;
+  const COL_WIDTH    = 24;
+  const ROW_SCALE_MIN = 1.25;
+  const ROW_SCALE_MAX = 1.6;
+
+  function resizeCanvas(){
+    const dpr = window.devicePixelRatio || 1;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    canvas.width = Math.floor(window.innerWidth * dpr);
+    canvas.height = Math.floor(window.innerHeight * dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  resizeCanvas();
+
+  const bases = ['A','T','G','C'];
+  let columns = [];
+  let safeRect = null;
+
+  function updateSafeRect(){
+    const el = document.getElementById('textBlock');
+    if(!el){ safeRect = null; return; }
+    const r = el.getBoundingClientRect();
+    const pad = 12;
+    safeRect = { left:r.left - pad, right:r.right + pad, top:r.top - pad, bottom:r.bottom + pad };
+  }
+  updateSafeRect();
+
+  function inSafeRect(x,y){
+    if(!safeRect) return false;
+    return x>=safeRect.left && x<=safeRect.right && y>=safeRect.top && y<=safeRect.bottom;
+  }
+
+  function rand(a,b){ return a + Math.random()*(b-a); }
+
+  function newColumn(i){
+    const fontSize = 16 + Math.random()*24;
+    const rowScale = rand(ROW_SCALE_MIN, ROW_SCALE_MAX);
+    return { x: i*COL_WIDTH + Math.floor(COL_WIDTH*0.5), y: Math.random()*window.innerHeight, speed:(0.9+Math.random()*1.4)*SPEED_FACTOR, fontSize, rowStep: fontSize*rowScale, depth:0.7+Math.random()*1.1, lastEmitY:0, trail:[] };
+  }
+
+  function rebuildColumns(){
+    const count = Math.max(1, Math.floor(window.innerWidth / COL_WIDTH));
+    columns = new Array(count).fill(0).map((_,i)=>{ const c=newColumn(i); c.lastEmitY=c.y; return c; });
+  }
+  rebuildColumns();
+
+  const easeOutQuad = t => 1 - (1 - t) * (1 - t);
+
+  function draw(now){
+    ctx.globalAlpha = 1; ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0,0,window.innerWidth,window.innerHeight);
+
+    columns.forEach((col,idx)=>{
+      col.y += col.speed * col.depth;
+      while(col.y - col.lastEmitY >= col.rowStep){
+        col.lastEmitY += col.rowStep;
+        const char = bases[(Math.random()*bases.length) | 0];
+        const isMut = Math.random() < MUT_RATE;
+        col.trail.push({ x:col.x, y:col.lastEmitY, char, color: isMut ? '#D80000' : 'rgb(10,30,120)', size: col.fontSize, born: now });
+      }
+      if(col.y > window.innerHeight + col.rowStep){
+        const next = newColumn(idx); next.y = 0; next.lastEmitY = -next.rowStep; columns[idx] = next; }
+
+      const alive = [];
+      for(let i=0;i<col.trail.length;i++){
+        const g = col.trail[i];
+        const age = now - g.born;
+        if(age <= LIFETIME_MS){
+          const t = age / LIFETIME_MS; const alpha = 1 - (1 - t) * (1 - t);
+          if(!inSafeRect(g.x,g.y)){
+            ctx.globalAlpha = alpha; ctx.shadowColor = g.color; ctx.shadowBlur = Math.max(0,(g.size-16)*0.2);
+            ctx.font = `${g.size}px monospace`; ctx.fillStyle = g.color; ctx.fillText(g.char,g.x,g.y);
+          }
+          alive.push(g);
+        }
+      }
+      col.trail = alive;
+    });
+
+    ctx.globalAlpha = 1; ctx.shadowBlur = 0; requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+
+  window.addEventListener('resize', ()=>{ resizeCanvas(); rebuildColumns(); updateSafeRect(); });
+  window.addEventListener('load', updateSafeRect);
+  </script>
+</body>
+</html>
