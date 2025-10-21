@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
   <meta name="description" content="Molecular Hematology Research Group at ACTREC, Tata Memorial Centre, Mumbai, India. Translational research in blood cancers led by Prof. Nikhil Patkar." />
-  <title>Molecular Hematology Research Group</title>
+  <title>Molecular Hematology Research Group – Prof. Nikhil Patkar's Blood Cancer Research Group</title>
   <style>
     :root{
       --ink:#0a1e78;
@@ -26,7 +26,44 @@
       color: var(--ink);
       min-height: 100vh;
       position: relative;
-      overflow-x: hidden; /* Only hide horizontal overflow */
+      overflow-x: hidden;
+    }
+
+    /* Navigation bar */
+    .nav {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      display: flex;
+      gap: 8px;
+      background: rgba(255,255,255,0.85);
+      padding: 8px;
+      border-radius: 999px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 2px 12px rgba(10,30,120,0.08);
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: var(--ink);
+      font-weight: 500;
+      padding: 10px 20px;
+      border-radius: 999px;
+      transition: all 0.2s ease;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .nav a:hover {
+      background: rgba(10,30,120,0.08);
+    }
+
+    .nav a.active {
+      background: var(--ink);
+      color: white;
     }
 
     /* Canvas positioning */
@@ -40,56 +77,38 @@
       pointer-events: none;
     }
 
-    /* Full-bleed hero that sits above the animated canvas */
+    /* Main content container */
     .hero {
       position: relative;
       z-index: 10;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      min-height: 100dvh; /* Dynamic viewport height for mobile */
+      min-height: 100dvh;
       padding: 20px;
-    }
-
-    .hero-card{
-      width: 100%;
-      max-width: 1000px;
-      background: rgba(255,255,255,0.92);
-      border: 1px solid rgba(10,30,120,0.08);
-      box-shadow: 0 10px 30px rgba(10,30,120,0.10);
-      border-radius: 20px;
-      padding: 24px;
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px);
+      text-align: center;
     }
 
     h1{
-      margin: 0 0 12px 0;
-      font-size: clamp(24px, 5vw, 48px);
-      line-height: 1.2;
-      word-wrap: break-word;
+      margin: 0 0 32px 0;
+      font-size: clamp(32px, 7vw, 72px);
+      line-height: 1.1;
+      font-weight: 700;
+      letter-spacing: -0.02em;
     }
 
-    .subtitle{
-      margin: 0 0 20px 0;
-      font-size: clamp(14px, 2.5vw, 22px);
-      opacity: .9;
-      line-height: 1.4;
+    .mission{
+      margin: 0 auto;
+      font-size: clamp(16px, 2.5vw, 24px);
+      line-height: 1.5;
+      max-width: 900px;
+      font-weight: 400;
+      opacity: 0.9;
     }
 
-    .desc{
-      margin: 16px 0 0 0;
-      font-size: clamp(14px, 2vw, 20px);
-      line-height: 1.6;
-    }
-
-    .accent{ 
-      color: var(--mut); 
-      font-weight: 600; 
-    }
-
-    /* Footer hint */
+    /* Footer */
     .footer{ 
       position: fixed; 
       left: 0; 
@@ -105,28 +124,28 @@
 
     /* Mobile-specific adjustments */
     @media (max-width: 768px) {
-      .hero {
-        padding: 16px;
-        min-height: 100vh;
-        min-height: 100dvh;
+      .nav {
+        top: 12px;
+        padding: 6px;
+        gap: 4px;
+      }
+
+      .nav a {
+        padding: 8px 14px;
+        font-size: 13px;
       }
       
-      .hero-card {
-        padding: 20px;
-        border-radius: 16px;
-        background: rgba(255,255,255,0.95); /* More opaque on mobile */
+      .hero {
+        padding: 80px 16px 16px;
       }
       
       h1 {
-        font-size: 28px;
+        font-size: 36px;
+        margin-bottom: 24px;
       }
       
-      .subtitle {
-        font-size: 16px;
-      }
-      
-      .desc {
-        font-size: 15px;
+      .mission {
+        font-size: 18px;
       }
       
       .footer {
@@ -137,76 +156,95 @@
 
     /* Very small devices */
     @media (max-width: 380px) {
+      .nav {
+        gap: 2px;
+        padding: 4px;
+      }
+
+      .nav a {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+
       h1 {
-        font-size: 24px;
+        font-size: 28px;
       }
       
-      .hero-card {
-        padding: 16px;
+      .mission {
+        font-size: 16px;
       }
     }
 
-    /* Tablet adjustments */
-    @media (min-width: 769px) and (max-width: 1024px) {
-      .hero-card {
-        padding: 32px;
+    /* Large screens */
+    @media (min-width: 1200px) {
+      h1 {
+        font-size: 80px;
       }
-    }
+      
+      .mission {
+        font-size: 28px;
+      }
 
-    /* Respect reduced motion */
-    @media (prefers-reduced-motion: reduce) { 
-      .motion-note{ display: inline; }
-      #nucleotideCanvas { display: none; }
-    }
-    @media (prefers-reduced-motion: no-preference) { 
-      .motion-note{ display: none; } 
-    }
-
-    /* Reduce animation complexity on mobile */
-    @media (max-width: 768px) and (pointer: coarse) {
-      #nucleotideCanvas {
-        opacity: 0.7; /* Slightly reduce visibility to improve text readability */
+      .nav a {
+        font-size: 16px;
+        padding: 12px 24px;
       }
     }
 
     /* Landscape mobile adjustments */
     @media (max-height: 500px) and (orientation: landscape) {
+      .nav {
+        top: 8px;
+      }
+
+      .nav a {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+
       .hero {
-        min-height: auto;
-        padding: 20px;
+        padding-top: 60px;
       }
       
       h1 {
-        font-size: 24px;
-        margin-bottom: 8px;
+        font-size: 32px;
+        margin-bottom: 16px;
       }
       
-      .subtitle {
-        margin-bottom: 12px;
+      .mission {
+        font-size: 16px;
       }
-      
-      .desc {
-        margin-top: 12px;
+    }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) { 
+      #nucleotideCanvas { display: none; }
+    }
+
+    /* Reduce animation complexity on mobile */
+    @media (max-width: 768px) and (pointer: coarse) {
+      #nucleotideCanvas {
+        opacity: 0.5;
       }
     }
   </style>
 </head>
 <body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <a href="index.html" class="active">Home</a>
+    <a href="team.html">Team</a>
+    <a href="research.html">Research</a>
+    <a href="social.html">Social</a>
+  </nav>
+
   <!-- Animated nucleotide rain canvas (background) -->
   <canvas id="nucleotideCanvas" aria-hidden="true"></canvas>
 
-  <!-- Foreground content -->
+  <!-- Main content -->
   <main class="hero" role="main">
-    <section class="hero-card" aria-label="Intro">
-      <h1>Molecular Hematology Research Group</h1>
-      <p class="desc">
-        Our mission is to improve the diagnosis, prognostication and monitoring of acute leukaemia and rapidly translate these discoveries into the clinics.
-      </p>
-      <p class="desc">
-      </p>
-
-      <p class="desc motion-note"><span class="accent">Note:</span> Motion reduced to respect your system setting.</p>
-    </section>
+    <h1>Molecular Hematology Research Group</h1>
+    <p class="mission">Our mission is to improve the diagnosis, prognostication and monitoring of acute leukaemia and rapidly translate these discoveries into the clinics.</p>
   </main>
 
   <footer class="footer">© <span id="year"></span> Molecular Hematology Research Group · ACTREC · TMC</footer>
@@ -222,12 +260,12 @@
     const ctx = canvas.getContext("2d");
 
     // Adjust animation parameters for mobile
-    const SPEED_FACTOR = isMobile ? 0.3 : 0.5;     // Slower on mobile
-    const LIFETIME_MS  = isMobile ? 2000 : 2800;   // Shorter trails on mobile
+    const SPEED_FACTOR = isMobile ? 0.3 : 0.5;
+    const LIFETIME_MS  = isMobile ? 2000 : 2800;
     const MUT_RATE     = 0.03;
-    const COL_WIDTH    = isMobile ? 36 : 24;       // Wider columns on mobile (fewer columns)
-    const ROW_SCALE_MIN = 1.25;
-    const ROW_SCALE_MAX = 1.6;
+    const COL_WIDTH    = isMobile ? 40 : 28;
+    const ROW_SCALE_MIN = 1.3;
+    const ROW_SCALE_MAX = 1.7;
 
     // HiDPI crispness with performance consideration
     function resizeCanvas() {
@@ -250,15 +288,15 @@
     function rand(a,b){ return a + Math.random()*(b-a); }
 
     function newColumn(i) {
-      const fontSize = isMobile ? (12 + Math.random() * 16) : (16 + Math.random() * 24);
+      const fontSize = isMobile ? (14 + Math.random() * 20) : (18 + Math.random() * 28);
       const rowScale = rand(ROW_SCALE_MIN, ROW_SCALE_MAX);
       return {
         x: i * COL_WIDTH + Math.floor(COL_WIDTH * 0.5),
         y: Math.random() * window.innerHeight,
-        speed: (0.9 + Math.random() * 1.4) * SPEED_FACTOR,
+        speed: (0.8 + Math.random() * 1.2) * SPEED_FACTOR,
         fontSize,
         rowStep: fontSize * rowScale,
-        depth: 0.7 + Math.random() * 1.1,
+        depth: 0.6 + Math.random() * 0.8,
         lastEmitY: 0,
         trail: []
       };
@@ -266,8 +304,7 @@
 
     function rebuildColumns() {
       const count = Math.max(1, Math.floor(window.innerWidth / COL_WIDTH));
-      // Limit columns on mobile for performance
-      const maxCols = isMobile ? 15 : 50;
+      const maxCols = isMobile ? 12 : 40;
       const finalCount = Math.min(count, maxCols);
       
       columns = new Array(finalCount).fill(0).map((_, i) => {
@@ -330,21 +367,20 @@
 
         // Render & prune trail
         const alive = [];
-        const maxTrailLength = isMobile ? 10 : 20; // Limit trail length on mobile
+        const maxTrailLength = isMobile ? 8 : 15;
         
         for (let i = 0; i < Math.min(col.trail.length, maxTrailLength); i++) {
           const g = col.trail[i];
           const age = now - g.born;
           if (age <= LIFETIME_MS) {
             const t = age / LIFETIME_MS;
-            const alpha = 1 - easeOutQuad(t);
+            const alpha = (1 - easeOutQuad(t)) * 0.8;
 
             ctx.globalAlpha = alpha;
             
-            // Reduce shadow blur on mobile for performance
             if (!isMobile) {
               ctx.shadowColor = g.color;
-              ctx.shadowBlur = Math.max(0, (g.size - 16) * 0.2);
+              ctx.shadowBlur = Math.max(0, (g.size - 18) * 0.15);
             }
 
             ctx.font = `${g.size}px monospace`;
